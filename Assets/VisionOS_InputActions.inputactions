@@ -1,0 +1,54 @@
+{
+    "name": "VisionOS_InputActions",
+    "maps": [
+        {
+            "name": "VisionOS_Input",
+            "id": "3b663699-8d0d-4b14-8921-fef9067e24ae",
+            "actions": [
+                {
+                    "name": "Pinch Action",
+                    "type": "Button",
+                    "id": "746c179b-3328-49f5-984e-2b76c11233e5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pointer Pose Action",
+                    "type": "Value",
+                    "id": "451e798c-e400-4e29-ac11-0c07b086ca09",
+                    "expectedControlType": "Pose",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f6502337-ae22-4e1d-b5c4-1ecc54eee927",
+                    "path": "<XRController>{RightHand}/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pinch Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a1bedfb5-c15a-4de9-8018-aadd8c314ef6",
+                    "path": "<XRController>{RightHand}/pointer",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pointer Pose Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
