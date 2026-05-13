@@ -18,6 +18,7 @@ public class DisplaySpatialAnchors : MonoBehaviour
 
     private FirebaseFirestore db;
     private ListenerRegistration listenerRegistration;
+    private Timestamp appStartTime;
     
     // Keep track of spawned cubes so we can update them if they move in the database
     private Dictionary<string, GameObject> spawnedAnchors = new Dictionary<string, GameObject>();
@@ -46,11 +47,17 @@ public class DisplaySpatialAnchors : MonoBehaviour
     {
         if (displayText != null) displayText.text = "Listening for new spatial anchors in real-time...";
 
+        // Record the exact time we start listening
+        appStartTime = Timestamp.GetCurrentTimestamp();
+
         // Listen for real-time updates to the spatial_anchors collection
-        listenerRegistration = db.Collection("spatial_anchors").Listen(snapshot =>
+        // We use WhereGreaterThan to ONLY get anchors created after the app started
+        listenerRegistration = db.Collection("spatial_anchors")
+            .WhereGreaterThan("timestamp", appStartTime)
+            .Listen(snapshot =>
         {
             if (displayText != null) 
-                displayText.text = $"Tracking {snapshot.Count} active anchors.";
+                displayText.text = $"Tracking {snapshot.Count} new anchors.";
 
             // Process every change (Added, Modified, Removed)
             foreach (DocumentChange change in snapshot.GetChanges())
@@ -98,15 +105,8 @@ public class DisplaySpatialAnchors : MonoBehaviour
             }
 
             // 3. Parse Scale
+            // The scale is now forced to always be 1 (Vector3.one), ignoring the database
             Vector3 scale = Vector3.one;
-            if (data.ContainsKey("scale"))
-            {
-                Dictionary<string, object> scaleMap = data["scale"] as Dictionary<string, object>;
-                float sx = float.Parse(scaleMap["x"].ToString(), System.Globalization.CultureInfo.InvariantCulture);
-                float sy = float.Parse(scaleMap["y"].ToString(), System.Globalization.CultureInfo.InvariantCulture);
-                float sz = float.Parse(scaleMap["z"].ToString(), System.Globalization.CultureInfo.InvariantCulture);
-                scale = new Vector3(sx, sy, sz);
-            }
 
             // 4. Check if we need to spawn or just update
             if (spawnedAnchors.ContainsKey(document.Id))
