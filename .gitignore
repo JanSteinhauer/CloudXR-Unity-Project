@@ -79,3 +79,12 @@ crashlytics-build.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Firebase Secrets
+google-services.json
+google-services-desktop.json
+GoogleService-Info.plist
+
+# Firebase Large Files (exceeds GitHub 100MB limit)
+/[Aa]ssets/Firebase/Plugins/x86_64/
+
